@@ -7,7 +7,7 @@ import { Switch } from "./ui/switch";
 
 export function ModeToggle() {
   const { setTheme } = useTheme();
-  const [on, setOn] = React.useState(false);
+  const [on, setOn] = React.useState(true);
 
   function switchState() {
     if (on) setTheme("light");

@@ -8,6 +8,7 @@ import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [data, setData] = useState([
     { key: 0, boom: false, bool: true },
     { key: 1, boom: false, bool: true },
@@ -19,11 +20,18 @@ export default function Home() {
     { key: 7, boom: false, bool: true },
     { key: 8, boom: false, bool: true },
   ]);
-  const applause = new Audio("/applause.wav");
+  // const applause = new Audio("/applause.wav");
 
   function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
   }
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setAudio(new Audio("/applause.wav"));
+    }
+  }, []);
+
   useEffect(() => {
     setData((prevData) =>
       prevData.map((item) => {
@@ -35,7 +43,7 @@ export default function Home() {
     );
   }, []);
 
-  function handleClick(e) {
+  function handleClick(e: any) {
     if (data[e].boom) handleBoom();
     setData((prevData) =>
       prevData.map((item) => {
@@ -49,7 +57,9 @@ export default function Home() {
 
   function handleBoom() {
     setIsOpen(true);
-    applause.play();
+    if (audio) {
+      audio.play();
+    }
   }
 
   function reload() {
